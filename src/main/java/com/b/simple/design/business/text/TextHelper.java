@@ -26,7 +26,6 @@ public class TextHelper {
 		 String first2CharacterUpdated = first2Characters.replace("A", "");
 
 		 String restOfTheString = str.substring(2);
-
 		 return first2CharacterUpdated + restOfTheString;
 
 	}
