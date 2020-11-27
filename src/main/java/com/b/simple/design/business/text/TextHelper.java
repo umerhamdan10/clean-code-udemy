@@ -22,8 +22,11 @@ public class TextHelper {
 			return str.replaceAll("A", "");
 
 		 String first2Characters = str.substring(0, 2);
+
 		 String first2CharacterUpdated = first2Characters.replace("A", "");
+
 		 String restOfTheString = str.substring(2);
+		 
 		 return first2CharacterUpdated + restOfTheString;
 
 	}
