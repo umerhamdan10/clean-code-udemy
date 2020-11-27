@@ -22,13 +22,9 @@ public class TextHelperTest {
 	@Test
 	public void testTruncateAInFirst2Positions() {
 		assertEquals("",helper.truncateAInFirst2Positions(""));
-
 		assertEquals("BCD",helper.truncateAInFirst2Positions("ABCD"));
-
 		assertEquals("CD",helper.truncateAInFirst2Positions("AACD"));
-
 		assertEquals("BCD",helper.truncateAInFirst2Positions("BACD"));
-
 		assertEquals("BBAA",helper.truncateAInFirst2Positions("BBAA"));
 	}
 }
