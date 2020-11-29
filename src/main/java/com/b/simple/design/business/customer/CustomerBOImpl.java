@@ -12,32 +12,36 @@ import com.b.simple.design.model.customer.Product;
 public class CustomerBOImpl implements CustomerBO {
 
 	@Override
-	public Amount getCustomerProductsSum(List<Product> products)
-			throws DifferentCurrenciesException {
-		BigDecimal temp = BigDecimal.ZERO;
+	public Amount getCustomerProductsSum(List<Product> products) throws DifferentCurrenciesException {
+
+		//All high level method & Sub Methods
 
 		if (products.size() == 0)
-			return new AmountImpl(temp, Currency.EURO);
+			return new AmountImpl(BigDecimal.ZERO, Currency.EURO);
 
-		// Throw Exception If Any of the product has a currency different from
-		// the first product
-		Currency firstProductCurrency = products.get(0).getAmount()
-				.getCurrency();
 
-		for (Product product : products) {
-			boolean currencySameAsFirstProduct = product.getAmount()
-					.getCurrency().equals(firstProductCurrency);
-			if (!currencySameAsFirstProduct) {
-				throw new DifferentCurrenciesException();
-			}
+		if(!doAllProductsHaveSameCurrency(products)){
+			throw new DifferentCurrenciesException();
 		}
 
-		// Calculate Sum of Products
-		for (Product product : products) {
-			temp = temp.add(product.getAmount().getValue());
-		}
-		
-		// Create new product
-		return new AmountImpl(temp, firstProductCurrency);
+		return calculateSumOfProducts(products);
+	}
+
+	private Amount calculateSumOfProducts(List<Product> products) {
+
+		Currency firstProductCurrency = products.get(0).getAmount().getCurrency();
+
+		BigDecimal sum = products.stream().map(product -> product.getAmount().getValue()).reduce(BigDecimal.ZERO, BigDecimal::add);
+		return new AmountImpl(sum, firstProductCurrency);
+	}
+
+	private boolean doAllProductsHaveSameCurrency(List<Product> products) throws DifferentCurrenciesException {
+
+		Currency firstProductCurrency = products.get(0).getAmount().getCurrency();
+
+		//first get product currency then match all these currency
+		return products.stream().map(product -> product.getAmount().getCurrency())
+				        .allMatch(currency -> currency.equals(firstProductCurrency));
+
 	}
 }
