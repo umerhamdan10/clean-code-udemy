@@ -75,7 +75,3 @@ class GameTest {
 	}
 
 }
-
-//Red
-//Green
-//Refactor
